@@ -1,7 +1,7 @@
 (() => {
     'use strict';
 
-    const VERSION = '1.5.0';
+    const VERSION = '1.5.1';
     const READY_CLASS = 'message-meta-ready';
     const CLICKABLE_CLASS = 'msg-meta-clickable';
     const POPOVER_ID = 'message-meta-popover';
@@ -697,12 +697,25 @@
         };
     }
 
-    function getStoredUsage(extra) {
+    // A new swipe starts out with a copy of the previous swipe's extra, stored usage
+    // included. Usage counts only for the reply it was captured for.
+    function usageBelongsToReply(stored, genStarted) {
+        const started = toDate(genStarted)?.getTime();
+        if (!started) return true;
+
+        if (Number.isFinite(stored.genStartedAt)) return stored.genStartedAt === started;
+
+        // Saved before genStartedAt was recorded: it cannot predate the reply.
+        const captured = Number(stored.capturedAt);
+        return !Number.isFinite(captured) || captured >= started - 1000;
+    }
+
+    function getStoredUsage(extra, genStarted) {
         if (!extra || typeof extra !== 'object') return null;
 
         const stored = extra[USAGE_KEY];
         if (stored && typeof stored === 'object') {
-            return stored;
+            return usageBelongsToReply(stored, genStarted) ? stored : null;
         }
 
         // Compatibility with messages/plugins that may already have raw provider usage.
@@ -800,6 +813,7 @@
             ...pendingEntry.usage,
             model: pendingEntry.usage.model || message.extra.model || '',
             api: pendingEntry.usage.api || message.extra.api || '',
+            genStartedAt: toDate(getEffectiveMeta(message).genStarted)?.getTime() ?? null,
         };
 
         message.extra[USAGE_KEY] = usage;
@@ -830,7 +844,7 @@
 
         // Do not overwrite exact usage already persisted for this swipe/message.
         const meta = getEffectiveMeta(message);
-        if (getStoredUsage(meta.extra)) return true;
+        if (getStoredUsage(meta.extra, meta.genStarted)) return true;
 
         const pending = selectPendingUsageForMessage(message);
         if (!pending) return false;
@@ -848,7 +862,7 @@
         }
 
         const meta = getEffectiveMeta(message);
-        if (getStoredUsage(meta.extra)) return true;
+        if (getStoredUsage(meta.extra, meta.genStarted)) return true;
         if (bridgeClaimInFlight.has(id)) return false;
 
         bridgeClaimInFlight.add(id);
@@ -1068,7 +1082,7 @@
 
         const meta = getEffectiveMeta(message);
         const extra = meta.extra ?? {};
-        const usage = getStoredUsage(extra);
+        const usage = getStoredUsage(extra, meta.genStarted);
 
         removePopover();
 

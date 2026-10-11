@@ -18,7 +18,7 @@ SillyTavern → 확장(Extensions) → **Install extension**에 이 저장소 �
 https://github.com/STLoft/Message-Meta
 ```
 
-설치 후 페이지를 새로 고칩니다. 브라우저 개발자도구 Console에 `[Message Meta] v1.5.0 loaded`가 보이면 로드된 것입니다.
+설치 후 페이지를 새로 고칩니다. 브라우저 개발자도구 Console에 `[Message Meta] v1.5.1 loaded`가 보이면 로드된 것입니다.
 
 ## 토큰 사용량
 
