@@ -1,0 +1,12 @@
+{
+    "display_name": "Message Meta",
+    "loading_order": 10,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "STLoft",
+    "version": "1.5.0",
+    "homePage": "https://github.com/STLoft/Message-Meta",
+    "auto_update": true
+}

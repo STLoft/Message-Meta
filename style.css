@@ -1,0 +1,120 @@
+/* Message Meta - generic theme-following styles
+   Uses SillyTavern SmartTheme variables. No specific custom theme is required. */
+
+body.message-meta-ready #chat .mes[is_system="false"] .tokenCounterDisplay.msg-meta-clickable,
+body.message-meta-ready #chat .mes[is_system="true"][is_user]:not(.smallSysMes) .tokenCounterDisplay.msg-meta-clickable {
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+/* Message metadata popover. All colors follow current SillyTavern theme variables. */
+#message-meta-popover {
+    position: fixed;
+    z-index: 2147483647;
+    width: min(190px, calc(100vw - 16px));
+    min-width: 0;
+    max-width: min(190px, calc(100vw - 16px));
+    padding: 8px 9px;
+    box-sizing: border-box;
+    color: var(--SmartThemeBodyColor, currentColor);
+    background: color-mix(
+        in srgb,
+        var(--SmartThemeBlurTintColor, Canvas) 94%,
+        transparent 6%
+    );
+    border: 1px solid var(--SmartThemeBorderColor, currentColor);
+    border-radius: 8px;
+    box-shadow: 0 5px 18px color-mix(in srgb, currentColor 12%, transparent 88%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: inherit;
+    font-size: calc(var(--mainFontSize, 16px) * 0.78);
+    line-height: 1.4;
+}
+
+#message-meta-popover .msg-meta-title {
+    margin: 0 0 5px;
+    padding: 0 0 5px;
+    border-bottom: 1px solid color-mix(
+        in srgb,
+        var(--SmartThemeBorderColor, currentColor) 62%,
+        transparent 38%
+    );
+    font-weight: 700;
+}
+
+#message-meta-popover .msg-meta-section {
+    margin: 7px 0 4px;
+    padding-top: 5px;
+    border-top: 1px solid color-mix(
+        in srgb,
+        var(--SmartThemeBorderColor, currentColor) 62%,
+        transparent 38%
+    );
+    color: var(--SmartThemeUnderlineColor, currentColor);
+    font-size: 0.92em;
+    font-weight: 600;
+}
+
+#message-meta-popover .msg-meta-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    width: 100%;
+    max-width: 100%;
+    column-gap: 8px;
+    row-gap: 0;
+    align-items: baseline;
+    margin: 3px 0;
+}
+
+#message-meta-popover .msg-meta-label {
+    color: var(--SmartThemeUnderlineColor, currentColor);
+    white-space: nowrap;
+    font-size: 0.96em;
+}
+
+#message-meta-popover .msg-meta-value {
+    min-width: 0;
+    color: var(--SmartThemeBodyColor, currentColor);
+    overflow-wrap: anywhere;
+}
+
+#message-meta-popover .msg-meta-token-row .msg-meta-value {
+    justify-self: end;
+    text-align: right;
+    min-width: 4.8ch;
+    width: auto;
+    max-width: none;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+#message-meta-popover .msg-meta-thinking-row .msg-meta-label {
+    padding-left: 4px;
+    font-size: 0.94em;
+}
+
+#message-meta-popover .msg-meta-total-row {
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid color-mix(
+        in srgb,
+        var(--SmartThemeBorderColor, currentColor) 46%,
+        transparent 54%
+    );
+    font-weight: 700;
+}
+
+#message-meta-popover .msg-meta-row:not(.msg-meta-token-row) .msg-meta-value {
+    max-width: 112px;
+}
+
+#message-meta-popover .msg-meta-note {
+    width: auto;
+    max-width: 100%;
+    margin-top: 5px;
+    color: var(--SmartThemeUnderlineColor, currentColor);
+    font-size: 0.82em;
+    line-height: 1.32;
+    opacity: 0.78;
+}
